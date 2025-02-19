@@ -5,6 +5,7 @@ static unsigned int hash(const char *key) {
     unsigned int hash_val = 0;
     int len = strlen(key);
     for (int i = 0; i < len; i++) {
+        // 将字符的 ASCII 码相加并取模
         hash_val = (hash_val + key[i]) % TABLE_SIZE;
     }
     return hash_val;
@@ -23,8 +24,8 @@ static node *create_node(const char *key, int value) {
 void hash_table_insert(node **table, const char *key, int value) {
     unsigned int index = hash(key);
     node *new_node = create_node(key, value);
-    new_node->next = table[index];
-    table[index] = new_node;
+    new_node->next = table[index];  // 将新节点的 next 指向当前链表的头节点
+    table[index] = new_node;        // 将新节点设置为链表的头节点
 }
 
 // 查找键值对
@@ -43,7 +44,7 @@ int hash_table_search(node **table, const char *key) {
 // 删除键值对
 void hash_table_remove(node **table, const char *key) {
     unsigned int index = hash(key);
-    node *current = table[index];
+    node *current = table[index];  // 获取对应索引的链表头节点
     node *prev = NULL;
     while (current) {
         if (strcmp(current->key, key) == 0) {
