@@ -9,12 +9,15 @@ int main() {
     hash_table_insert(table, "Jolan", 23);
     hash_table_insert(table, "templari", 23);
 
-    printf("search Ming's age: %d\n", hash_table_search(table, "Ming"));
+    printf("search Ming's age: %d\n");
+    printf("%d\n", hash_table_search(table, "Ming"));
 
     print_hash_table(table);
 
     hash_table_remove(table, "zzh0u");
-    printf("zzh0u's age after removal: %d\n",hash_table_search(table, "zzh0u"));
+    
+    printf("zzh0u's age after removal:");
+    printf("%d\n", hash_table_search(table, "zzh0u"));
 
     return 0;
 }
