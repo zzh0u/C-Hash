@@ -14,6 +14,11 @@ static unsigned int hash(const char *key) {
 // 创建节点（仅内部使用）
 static node *create_node(const char *key, int value) {
     node *new_node = (node *)malloc(sizeof(node));
+    /*
+        key 是指针，若直接赋值，可能导致浅拷贝问题
+        1. 修改原字符会导致 new_node->key 的值也改变
+        2. 栈内存失效，变为野指针
+    */
     new_node->key = strdup(key);
     new_node->value = value;
     new_node->next = NULL;
@@ -23,9 +28,13 @@ static node *create_node(const char *key, int value) {
 // 插入键值对
 void hash_table_insert(node **table, const char *key, int value) {
     unsigned int index = hash(key);
+    printf("Inserting [%s] at bucket %d (原链表头: %p)\n", key, index, (void*)table[index]);
+    
     node *new_node = create_node(key, value);
-    new_node->next = table[index];  // 将新节点的 next 指向当前链表的头节点
-    table[index] = new_node;        // 将新节点设置为链表的头节点
+    new_node->next = table[index];
+    table[index] = new_node;
+    
+    printf("新链表头: %p -> next: %p\n", (void*)table[index], (void*)new_node->next);
 }
 
 // 查找键值对
